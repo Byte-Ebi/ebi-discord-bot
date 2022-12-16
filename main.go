@@ -1,24 +1,34 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
+
+	"ebi-discord-bot/amesame"
 )
 
-var Token string
+var BotToken string
 
 func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("error loading .env file")
 	}
 
-	Token = os.Getenv("DISCORD_BOT_TOKEN")
+	BotToken = os.Getenv("DISCORD_BOT_TOKEN")
 }
 
 func main() {
-	fmt.Println(Token)
+	dg, err := discordgo.New("Bot " + BotToken)
+	if err != nil {
+		log.Fatal("error creating Discord session,", err)
+		return
+	}
+
+	defer dg.Close()
+
+	amesame.RunBot(dg)
 }
