@@ -1,16 +1,28 @@
 package main
 
 import (
+	"ebi-discord-bot/timemachine"
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
-
-	"ebi-discord-bot/amesame"
 )
 
-var BotToken string
+var logo = `
+ ____          _          _____  _      _ 
+| __ )  _   _ | |_  ___  | ____|| |__  (_)
+|  _ \ | | | || __|/ _ \ |  _|  | '_ \ | |
+| |_) || |_| || |_|  __/ | |___ | |_) || |
+|____/  \__, | \__|\___| |_____||_.__/ |_|
+        |___/                             
+`
+
+var (
+	BotToken string
+	GuildId  string
+)
 
 func init() {
 	err := godotenv.Load()
@@ -19,6 +31,7 @@ func init() {
 	}
 
 	BotToken = os.Getenv("DISCORD_BOT_TOKEN")
+	GuildId = os.Getenv("GUILD_ID")
 }
 
 func main() {
@@ -27,8 +40,11 @@ func main() {
 		log.Fatal("error creating Discord session,", err)
 		return
 	}
+	fmt.Println(logo)
 
 	defer dg.Close()
 
-	amesame.RunBot(dg)
+	timemachine.SetBotToken(BotToken)
+	timemachine.SetGuildID(GuildId)
+	timemachine.RunBot(dg)
 }
