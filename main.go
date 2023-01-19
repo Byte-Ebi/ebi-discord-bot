@@ -4,10 +4,10 @@ import (
 	"ebi-discord-bot/timemachine"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
+	"github.com/spf13/viper"
 )
 
 var logo = `
@@ -30,8 +30,17 @@ func init() {
 		log.Fatal("error loading .env file")
 	}
 
-	BotToken = os.Getenv("DISCORD_BOT_TOKEN")
-	GuildId = os.Getenv("GUILD_ID")
+	viper.SetConfigFile(".env")
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			log.Fatal("error .env file not found.")
+		} else {
+			log.Fatal("error: ", err)
+		}
+	}
+
+	BotToken = viper.GetString("DISCORD_BOT_TOKEN")
+	GuildId = viper.GetString("GUILD_ID")
 }
 
 func main() {
@@ -44,7 +53,6 @@ func main() {
 
 	defer dg.Close()
 
-	timemachine.SetBotToken(BotToken)
 	timemachine.SetGuildID(GuildId)
 	timemachine.RunBot(dg)
 }
