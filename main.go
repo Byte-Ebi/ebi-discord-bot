@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ebi-discord-bot/timemachine"
+	"ebi-discord-bot/drawing"
 	"fmt"
 	"log"
 
@@ -44,15 +44,27 @@ func init() {
 }
 
 func main() {
-	dg, err := discordgo.New("Bot " + BotToken)
+	fmt.Println(logo)
+	session, err := discordgo.New("Bot " + BotToken)
 	if err != nil {
 		log.Fatal("error creating Discord session,", err)
 		return
 	}
-	fmt.Println(logo)
+	defer session.Close()
 
-	defer dg.Close()
-
-	timemachine.SetGuildID(GuildId)
-	timemachine.RunBot(dg)
+	drawingBot(session)
 }
+
+// func amesamaBot(session *discordgo.Session) {
+// 	amesame.RunBot(session)
+// }
+
+func drawingBot(session *discordgo.Session) {
+	drawing.SetGuildID(GuildId)
+	drawing.RunBot(session)
+}
+
+// func timemachineBot(session *discordgo.Session) {
+// 	timemachine.SetGuildID(GuildId)
+// 	timemachine.RunBot(session)
+// }

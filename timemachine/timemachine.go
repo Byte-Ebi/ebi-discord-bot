@@ -1,13 +1,5 @@
 /*
-Package timemachine 用途是轉換兩個時區之間的時間
-
-透過 slash command 呼叫指令
-
-使用方法:
-
-timemachine.SetBotToken(BotToken)
-timemachine.SetGuildID(GuildId)
-timemachine.RunBot(dg)
+Package timemachine [未完成]透過 slash command 呼叫指令轉換兩個時區之間的時間
 */
 package timemachine
 

@@ -1,9 +1,5 @@
 /*
-Package amesame 是一個簡單的 ping pong 機器人
-
-收到 Ame 就會回傳 Same 收到 Same 則會回傳 Ame
-
-使用方法: amesame.RunBot(dg)
+Package amesame 簡單的 ping pong 機器人，在聊天室聽到 Ame 就會回傳 Same；聽到 Same 則會回傳 Ame
 */
 package amesame
 
@@ -18,16 +14,16 @@ import (
 
 var err error
 
-func RunBot(dg *discordgo.Session) {
+func RunBot(s *discordgo.Session) {
 
 	// 註冊 event handler
-	dg.AddHandler(ameSameHandler)
+	s.AddHandler(ameSameHandler)
 
 	// 指定要接收的事件，在這邊只需要接收訊息事件
-	dg.Identify.Intents = discordgo.IntentsGuildMessages
+	s.Identify.Intents = discordgo.IntentsGuildMessages
 
 	// 開啟一個和 Discord 連線的 websocket 並開始監聽
-	err = dg.Open()
+	err = s.Open()
 	if err != nil {
 		log.Fatal("error opening connection,", err)
 		return
