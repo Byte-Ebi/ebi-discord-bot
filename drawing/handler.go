@@ -2,25 +2,9 @@ package drawing
 
 import (
 	"fmt"
-	"log"
-	"strconv"
-	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
-
-var (
-	seed int64
-)
-
-func setSeed(s string) {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		log.Fatalf("[error] Contvert user id: %v", err)
-		return
-	}
-	seed = int64(i) + int64(time.Now().YearDay())
-}
 
 var (
 	// 註冊指令
@@ -51,7 +35,7 @@ var (
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
-					Content: fmt.Sprintf("> <@%s> 抽到了：%v \n > 今日建議：%v", uid, holomen, quote),
+					Content: fmt.Sprintf("> 今日**%v**給 <@%s> 的建議是 \n > 「**%v**」", holomen, uid, quote),
 				},
 			})
 		},
@@ -59,8 +43,7 @@ var (
 )
 
 func draw(uid string) (string, string) {
-	setSeed(uid)
-	holomen := getHolomen(seed)
-	quote := getQuote(seed, holomen)
+	holomen := getHolomen(uid)
+	quote := getQuote(uid)
 	return holomen, quote
 }

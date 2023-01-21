@@ -24,5 +24,5 @@
 ```text
 |- amesame: 一個基於的華鯊公約 ping pong 機器人
 |- drawing: [開發中]無意義的每日抽籤
-|- timemachine: [未完成]在不同時區之間切換
+|- timemachine: [停滯中]在不同時區之間切換
 ```

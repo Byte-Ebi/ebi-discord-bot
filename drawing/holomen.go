@@ -1,12 +1,36 @@
 package drawing
 
 import (
+	"log"
 	"math/rand"
+	"strconv"
+	"time"
 )
 
 var (
 	RemoveCommands = true
+	holomenSeed    int64
+	quoteSeed      int64
+	holomen        string
 )
+
+func setHolomenSeed(s string) {
+	id, err := strconv.Atoi(s)
+	if err != nil {
+		log.Fatalf("[error] Contvert user id: %v", err)
+		return
+	}
+	holomenSeed = int64(id) + int64(time.Now().YearDay())
+}
+
+func setQuoteSeed(s string) {
+	id, err := strconv.Atoi(s)
+	if err != nil {
+		log.Fatalf("[error] Contvert user id: %v", err)
+		return
+	}
+	quoteSeed = int64(id) - int64(time.Now().YearDay())
+}
 
 var holomens = []string{
 	"ときのそら",
@@ -130,20 +154,28 @@ var quotes = map[string][]string{
 	"Hakos Baelz":      {},
 }
 
-func getHolomen(seed int64) string {
-	s := rand.NewSource(seed)
-	r := rand.New(s)
-	num := r.Intn(len(holomens))
+func getHolomen(uid string) string {
+	setHolomenSeed(uid)
+	r := rand.New(rand.NewSource(holomenSeed))
+	i := r.Intn(len(holomens))
 
-	holomen := holomens[num]
+	holomen = holomens[i]
 	return holomen
 }
 
-func getQuote(seed int64, holomen string) string {
-	s := rand.NewSource(seed)
-	r := rand.New(s)
-	num := r.Intn(len(quotes[holomen]))
+func getQuote(uid string) string {
+	quote := ""
+	setQuoteSeed(uid)
+	r := rand.New(rand.NewSource(quoteSeed))
 
-	quote := quotes[holomen][num]
+	if _, ok := quotes[holomen]; !ok {
+		log.Fatalf("[error] holomen %v not found: %v", holomen, err)
+	}
+
+	if len(quotes[holomen]) > 0 {
+		i := r.Intn(len(quotes[holomen]))
+		quote = quotes[holomen][i]
+	}
+
 	return quote
 }
