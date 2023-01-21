@@ -47,19 +47,20 @@ var (
 		},
 		"drawing": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			uid := i.Member.User.ID
-			holomen := draw(uid)
+			holomen, quote := draw(uid)
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
-					Content: fmt.Sprintf("> <@%s> 抽到了: %v\n", uid, holomen),
+					Content: fmt.Sprintf("> <@%s> 抽到了：%v \n > 今日建議：%v", uid, holomen, quote),
 				},
 			})
 		},
 	}
 )
 
-func draw(uid string) string {
+func draw(uid string) (string, string) {
 	setSeed(uid)
 	holomen := getHolomen(seed)
-	return holomen
+	quote := getQuote(seed, holomen)
+	return holomen, quote
 }
