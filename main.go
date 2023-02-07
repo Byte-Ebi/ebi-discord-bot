@@ -63,8 +63,3 @@ func drawingBot(session *discordgo.Session) {
 	drawing.SetGuildID(GuildId)
 	drawing.RunBot(session)
 }
-
-// func timemachineBot(session *discordgo.Session) {
-// 	timemachine.SetGuildID(GuildId)
-// 	timemachine.RunBot(session)
-// }
