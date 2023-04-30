@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ebi-discord-bot/drawing"
+	"ebi-discord-bot/amesame"
 	"fmt"
 	"log"
 
@@ -52,14 +52,9 @@ func main() {
 	}
 	defer session.Close()
 
-	drawingBot(session)
+	amesamaBot(session)
 }
 
-// func amesamaBot(session *discordgo.Session) {
-// 	amesame.RunBot(session)
-// }
-
-func drawingBot(session *discordgo.Session) {
-	drawing.SetGuildID(GuildId)
-	drawing.RunBot(session)
+func amesamaBot(session *discordgo.Session) {
+	amesame.RunBot(session)
 }
