@@ -17,7 +17,8 @@
 2. 填入自己的設定
   - DISCORD_BOT_TOKEN: Discord Bot Token
   - GUILD_ID: 伺服器 ID，若留空則會在所有機器人存在的群組建立 Global application commands
-1. `go run .`
+3. 開啟終端機進入要啟動的專案資料夾下
+4. `go run cmd/main.go`
 
 ## 專案結構
 
